@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import io from "socket.io-client";
 
 import RoomChat from "./RoomChat";
@@ -13,39 +12,29 @@ function App({ username }) {
   const [room, setRoom] = useState(false);
   const [roomName, setRoomName] = useState("");
 
-  console.log("id", id);
-
   useEffect(() => {
     const fetchSocketInfo = async () => {
       try {
-        const response = await axios.get(
-          "https://chat-application-gago.onrender.com/api/socket-info"
-        );
-        const newSocket = io(response.data.socketUrl);
+        const newSocket = io("https://chat-application-gago.onrender.com");
         setSocket(newSocket);
-        // setSocketInfo(newSocket);
 
         newSocket.on("your id", (id) => {
           setId(id);
-          console.log("id from socket", id);
         });
 
         newSocket.emit("set username", username);
 
-        // console.log("socket", socket);
-        // console.log("id", idn);
-
         newSocket.on("chat message", (msg) => {
           setMessages((prevMessages) => [...prevMessages, msg]);
 
+          // Check if the message is not from the current user
           if (newSocket.id !== msg.id) {
           // Display browser notification
           if (Notification.permission === "granted") {
-            // console.log("msg", msg.id);
-            console.log("id", newSocket.id);
             new Notification(`New Message From ${msg.user}`, {
               body: msg.text,
             });
+          
           } else if (Notification.permission !== "denied") {
             Notification.requestPermission().then((permission) => {
               if (permission === "granted") {
@@ -66,8 +55,7 @@ function App({ username }) {
           }
         });
 
-        // console.log("messages", messages)
-
+        // Return a cleanup function to disconnect the socket
         return () => {
           newSocket.off("chat message");
           newSocket.disconnect();
@@ -80,26 +68,25 @@ function App({ username }) {
     fetchSocketInfo();
   }, [username]);
 
-  // const setSocketInfo = (socket) => {
-  //   setSocket(socket);
-  // }
-
+  // Send message to the server when the user clicks the Send button
   const sendMessage = () => {
     console.log("socket", socket);
     socket.emit("chat message", input);
     setInput("");
   };
 
-  if (room) {
-    console.log("roomName", roomName);
-    return <RoomChat room={roomName} username={username} socket={socket} />;
-  }
-
+  // Handle the Enter key to send the message when the user presses Enter
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       sendMessage();
     }
   };
+
+  // If the user joins a room, render the RoomChat component
+  if (room) {
+    console.log("roomName", roomName);
+    return <RoomChat room={roomName} username={username} socket={socket} />;
+  }
 
   return (
     <div className="w-full h-screen">
