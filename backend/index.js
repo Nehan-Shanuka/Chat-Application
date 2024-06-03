@@ -23,7 +23,7 @@ app.use(cors());
 
 // this route is used to get the socket url
 app.get('/api/socket-info', (req, res) => {
-    res.json({ socketUrl: `http://localhost:${PORT}` });
+    res.json({ socketUrl: `https://chat-application-gago.onrender.com:${PORT}` });
 });
 
 // this is a catch all route, if no other routes are matched, this route will be used
