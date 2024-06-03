@@ -37,7 +37,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     // cors options
     cors: {
-        origin: "http://localhost:5173",
+        origin: "https://chat-application-psi-dusky.vercel.app",
         methods: ["GET", "POST"]
     }
 });
