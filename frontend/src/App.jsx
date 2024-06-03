@@ -127,8 +127,8 @@ function App({ username }) {
               onChange={(e) => setInput(e.target.value)}
             />
             <button
-              onSubmit={sendMessage}
               className="border-2 border-black px-2 py-1 rounded-md"
+              onClick={sendMessage}
             >
               Send
             </button>
