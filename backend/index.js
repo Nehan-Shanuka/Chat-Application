@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
     socket.on('room message', (room, msg) => {
         if (socket.rooms.has(room)) {
             const rooms = Array.from(socket.rooms);
-            io.emit('room message', { id: socket.id, user: socket.username, room: rooms[0], text: msg });
+            io.emit('room message', { id: socket.id, user: socket.username, room: rooms[1], text: msg });
             console.log(rooms);
             console.log(`${socket.username} sent message to room ${room}: ${msg}`);
         }
