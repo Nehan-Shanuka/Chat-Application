@@ -59,6 +59,12 @@ function RoomChat({ room, username, socket }) {
   if (leave) {
     return <App username={username} />;
   }
+  
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
 
   return (
     <div className="w-full h-screen">
@@ -96,6 +102,7 @@ function RoomChat({ room, username, socket }) {
             placeholder="Enter the message"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <button
             onClick={sendMessage}
