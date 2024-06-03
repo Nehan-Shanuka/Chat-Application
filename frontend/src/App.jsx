@@ -19,7 +19,7 @@ function App({ username }) {
     const fetchSocketInfo = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/socket-info"
+          "https://chat-application-gago.onrender.com/api/socket-info"
         );
         const newSocket = io(response.data.socketUrl);
         setSocket(newSocket);
