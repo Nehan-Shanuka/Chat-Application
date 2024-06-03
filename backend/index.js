@@ -25,8 +25,6 @@ const io = new Server(httpServer, {
 
 // this event is fired when a user connects to the socket server
 io.on('connection', (socket) => {
-    console.log('a user connected');
-
     socket.emit('your id', socket.id); // send the unique id to the user
     
     // set the username of the user

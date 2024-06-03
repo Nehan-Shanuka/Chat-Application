@@ -123,8 +123,8 @@ function App({ username }) {
               type="text"
               placeholder="Enter the message"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              onChange={(e) => setInput(e.target.value)}
             />
             <button
               type="submit"
